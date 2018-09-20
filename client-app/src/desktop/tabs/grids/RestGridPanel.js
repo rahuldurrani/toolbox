@@ -36,6 +36,11 @@ export class RestGridPanel extends Component {
                     required: true
                 },
                 {
+                    name: 'startDate',
+                    label: 'date',
+                    type: 'date'
+                },
+                {
                     name: 'isActive',
                     label: 'Active?',
                     type: 'bool',
@@ -90,6 +95,7 @@ export class RestGridPanel extends Component {
             {field: 'name'},
             {field: 'type'},
             {field: 'employees'},
+            {field: 'startDate'},
             {field: 'note', type: 'textarea'},
             {field: 'isActive', type: 'boolCheck'},
             {field: 'cfg'},

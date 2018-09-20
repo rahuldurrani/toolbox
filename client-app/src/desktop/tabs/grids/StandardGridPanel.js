@@ -5,14 +5,23 @@
  * Copyright © 2018 Extremely Heavy Industries Inc.
  */
 import React, {Component} from 'react';
+import {bindable} from '@xh/hoist/mobx';
+import {dialog, dialogBody} from '@xh/hoist/kit/blueprint';
 import {HoistComponent} from '@xh/hoist/core';
 import {panel} from '@xh/hoist/desktop/cmp/panel';
+import {toolbar} from '@xh/hoist/desktop/cmp/toolbar';
+import {filler} from '@xh/hoist/cmp/layout';
 import {Icon} from '@xh/hoist/icon';
+
+import {dateInput} from '@xh/hoist/desktop/cmp/form';
+
 
 import {wrapper, sampleGrid} from '../../common';
 
 @HoistComponent
 export class StandardGridPanel extends Component {
+
+    @bindable date = new Date();
 
     render() {
         return wrapper({
@@ -28,13 +37,26 @@ export class StandardGridPanel extends Component {
                     server-side exports, enhanced column definitions, and more.
                 </p>
             ],
-            item: panel({
-                title: 'Grids > Standard',
-                icon: Icon.gridPanel(),
-                width: 900,
-                height: 400,
-                item: sampleGrid()
-            })
+            items: [
+                panel({
+                    title: 'Grids > Standard',
+                    icon: Icon.gridPanel(),
+                    width: 900,
+                    height: 400,
+                    item: sampleGrid()
+                }),
+                dialog({
+                    isOpen: true,
+                    enforceFocus: false,
+                    items: dialogBody(
+                        dateInput({
+                            commitOnChange: true,
+                            model: this,
+                            field: 'date'
+                        })
+                    )
+                })
+            ]
         });
     }
 
