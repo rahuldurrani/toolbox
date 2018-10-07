@@ -53,7 +53,17 @@ class SampleColumnGroupsGrid extends Component {
                 gridModel: this.model
             });
         },
+        groupBy: ['state', 'lastName'],
         columns: [
+            {
+                colId: 'stateGroup',
+                headerName: 'State Group',
+                agOptions: {
+                    showRowGroup: true,
+                    cellRenderer: 'agGroupCellRenderer'
+                },
+                width: 120
+            },
             {
                 headerName: 'Demographics',
                 groupId: 'DEMO',
@@ -65,15 +75,17 @@ class SampleColumnGroupsGrid extends Component {
                         chooserName: 'First Name'
                     },
                     {
+                        field: 'state',
+                        width: 120
+
+                    },
+                    {
                         field: 'lastName',
                         headerName: 'Last',
                         width: 100,
                         chooserName: 'Last Name'
-                    },
-                    {
-                        field: 'state',
-                        width: 120
                     }
+
                 ]
             },
             {
@@ -152,7 +164,13 @@ class SampleColumnGroupsGrid extends Component {
         return panel({
             className: this.getClassName(),
             ...this.getLayoutProps(),
-            item: grid({model}),
+            item: grid({
+                model,
+                agOptions: {
+                    groupUseEntireRow: false,
+                    groupSuppressAutoColumn: true
+                }
+            }),
             mask: this.loadModel,
             bbar: toolbar({
                 omit: this.props.omitToolbar,
