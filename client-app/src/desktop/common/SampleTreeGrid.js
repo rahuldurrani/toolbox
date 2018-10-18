@@ -12,14 +12,16 @@ import {grid, GridModel, colChooserButton} from '@xh/hoist/desktop/cmp/grid';
 import {storeFilterField, storeCountLabel} from '@xh/hoist/desktop/cmp/store';
 import {panel} from '@xh/hoist/desktop/cmp/panel';
 import {exportButton, refreshButton} from '@xh/hoist/desktop/cmp/button';
-import {switchInput} from '@xh/hoist/desktop/cmp/form';
+import {switchInput, select} from '@xh/hoist/desktop/cmp/form';
 import {toolbarSep} from '@xh/hoist/desktop/cmp/toolbar';
 import {toolbar} from '@xh/hoist/desktop/cmp/toolbar';
 import {emptyFlexCol} from '@xh/hoist/columns';
 import {LocalStore} from '@xh/hoist/data';
 import {numberRenderer} from '@xh/hoist/format';
 import {PendingTaskModel} from '@xh/hoist/utils/async';
-
+import {bindable, observable} from '@xh/hoist/mobx';
+import {dimensionChooser} from '@xh/hoist/desktop/cmp/dimensionchooser'
+import {HoistModel} from '@xh/hoist/core';
 
 import {sampleTreeData} from './SampleTreeData';
 
@@ -65,19 +67,27 @@ class SampleTreeGrid extends Component {
         ]
     });
 
+    treeModel = new treeGridModel();
+
     constructor(props) {
         super(props);
         this.loadAsync();
+
+        this.addReaction({
+            track: () => [this.groupBy],
+            run: () => {console.log(this.groupBy)}
+        });
     }
 
     render() {
         const {model} = this;
-
+        console.log(this.treeModel.groupBy);
         return panel({
             className: this.getClassName(),
             ...this.getLayoutProps(),
             item: grid({model}),
             mask: this.loadModel,
+            tbar: this.renderTbar(),
             bbar: toolbar({
                 omit: this.props.omitToolbar,
                 items: [
@@ -101,6 +111,18 @@ class SampleTreeGrid extends Component {
         });
     }
 
+    renderTbar() {
+        const {treeModel} = this;
+        return toolbar(
+            filler(),
+            dimensionChooser({
+                model: treeModel,
+                field: 'groupBy',
+                dimensions: ['fund', 'assetClass', 'security']
+            })
+        )
+    }
+
     //------------------------
     // Implementation
     //------------------------
@@ -109,5 +131,11 @@ class SampleTreeGrid extends Component {
             .then(() => this.model.loadData(sampleTreeData))
             .linkTo(this.loadModel);
     }
+
+}
+
+@HoistModel
+class treeGridModel {
+    @bindable groupBy = 'fund,assetClass';
 }
 export const sampleTreeGrid = elemFactory(SampleTreeGrid);
