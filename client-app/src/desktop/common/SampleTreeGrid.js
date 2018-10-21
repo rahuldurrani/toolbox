@@ -12,15 +12,15 @@ import {grid, GridModel, colChooserButton} from '@xh/hoist/cmp/grid';
 import {storeFilterField, storeCountLabel} from '@xh/hoist/desktop/cmp/store';
 import {panel} from '@xh/hoist/desktop/cmp/panel';
 import {exportButton, refreshButton} from '@xh/hoist/desktop/cmp/button';
-import {switchInput, select} from '@xh/hoist/desktop/cmp/form';
+import {switchInput} from '@xh/hoist/desktop/cmp/form';
 import {toolbarSep} from '@xh/hoist/desktop/cmp/toolbar';
 import {toolbar} from '@xh/hoist/desktop/cmp/toolbar';
 import {emptyFlexCol} from '@xh/hoist/cmp/grid/columns';
 import {LocalStore} from '@xh/hoist/data';
 import {numberRenderer} from '@xh/hoist/format';
 import {PendingTaskModel} from '@xh/hoist/utils/async';
-import {bindable, observable} from '@xh/hoist/mobx';
-import {dimensionChooser} from '@xh/hoist/desktop/cmp/dimensionchooser'
+import {bindable} from '@xh/hoist/mobx';
+import {dimensionChooser} from '@xh/hoist/desktop/cmp/dimensionchooser';
 import {HoistModel} from '@xh/hoist/core';
 
 import {sampleTreeData} from '../../core/data';
@@ -120,7 +120,7 @@ class SampleTreeGrid extends Component {
                 field: 'groupBy',
                 dimensions: ['fund', 'portfolio', 'trader', 'assetClass']
             })
-        )
+        );
     }
 
     //------------------------
