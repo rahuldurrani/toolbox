@@ -118,7 +118,7 @@ class SampleTreeGrid extends Component {
             dimensionChooser({
                 model: treeModel,
                 field: 'groupBy',
-                dimensions: ['fund', 'portfolio', 'assetClass', 'security']
+                dimensions: ['fund', 'portfolio', 'trader', 'assetClass']
             })
         )
     }
