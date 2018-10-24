@@ -7,7 +7,7 @@
 import {Component} from 'react';
 import {elemFactory, HoistComponent, LayoutSupport} from '@xh/hoist/core';
 import {wait} from '@xh/hoist/promise';
-import {box, filler} from '@xh/hoist/cmp/layout';
+import {box, filler, span} from '@xh/hoist/cmp/layout';
 import {grid, GridModel, colChooserButton} from '@xh/hoist/cmp/grid';
 import {storeFilterField, storeCountLabel} from '@xh/hoist/desktop/cmp/store';
 import {panel} from '@xh/hoist/desktop/cmp/panel';
@@ -118,7 +118,12 @@ class SampleTreeGrid extends Component {
             dimensionChooser({
                 model: treeModel,
                 field: 'groupBy',
-                dimensions: ['fund', 'portfolio', 'trader', 'assetClass']
+                dimensions: [
+                    {value: 'fund', label: 'Fund'},
+                    {value: 'portfolio', label: 'Portfolio'},
+                    {value: 'trader', label: 'Trader'},
+                    {value: 'assetClass', label: 'Asset Class', leaf: true}
+                ]
             })
         );
     }
@@ -136,6 +141,6 @@ class SampleTreeGrid extends Component {
 
 @HoistModel
 class treeGridModel {
-    @bindable groupBy = 'fund,assetClass';
+    @bindable groupBy = ['fund', 'portfolio'];
 }
 export const sampleTreeGrid = elemFactory(SampleTreeGrid);
