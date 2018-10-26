@@ -17,6 +17,7 @@ class BootStrap {
         logStartupMsg()
         ensureRequiredConfigsCreated()
         ensureMonitorsCreated()
+        ensureRequiredPrefsCreated()
         def services = Utils.xhServices.findAll {it.class.canonicalName.startsWith('io.xh.toolbox')}
         BaseService.parallelInit(services)
         ensureUsersCreated()
@@ -130,6 +131,18 @@ class BootStrap {
                 metricUnit: 'sources',
                 active: true
         )
+    }
+
+    private void ensureRequiredPrefsCreated() {
+        Utils.prefService.ensureRequiredPrefsCreated([
+                xhDimensionsHistory: [
+                        type: 'json',
+                        defaultValue: [:],
+                        local: false,
+                        groupName: 'toolbox.xh.io',
+                        note: 'Comma delimited string containing user\'s dimension picker history'
+                ]
+        ])
     }
 
     private void createMonitorIfNeeded(Map data) {
